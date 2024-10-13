@@ -1,5 +1,7 @@
 from django.shortcuts import render
-from django.http import HttpResponse
 
 def index(request):
-    return HttpResponse('hello')
+    data = {'var': 15}
+    return render(request, 'index.html', context=data)
+
+
