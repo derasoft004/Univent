@@ -1,12 +1,7 @@
-<!DOCTYPE html>
+{% extends "base.html" %}
 {% load static %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="{% static "css/style.css" %}" />
-    <title>Title</title>
-</head>
-<body>
-<h3>{{ var }}</h3>
-</body>
-</html>
+
+{% block body %}
+{{ var }}
+<span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita maxime officia officiis quod ratione! Aliquid corporis distinctio enim eveniet expedita facilis impedit, iste laboriosam odio officia praesentium qui, quo quos repudiandae soluta sunt totam ullam vero voluptates voluptatum. Ab ad alias aliquam aliquid aperiam autem corporis culpa doloribus, error et fugit id illo illum ipsa itaque iusto libero magnam maiores maxime molestiae nemo nihil nostrum officiis pariatur praesentium quasi repellendus sequi soluta tempore velit, veritatis, vero vitae voluptates. Aliquid atque blanditiis fuga impedit incidunt mollitia nostrum nulla, officiis, pariatur perspiciatis praesentium repellendus rerum sed vitae voluptas? Commodi ipsam libero similique?</span>
+{% endblock body%}
