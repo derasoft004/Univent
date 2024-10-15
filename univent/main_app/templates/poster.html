@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+{% for key, value in posters.items %}
+  <div class="post">
+    <h3 class="event_name"> {{ key }}. Участников : {{ value }}</h3>
+    <span class="event_description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci aliquam amet animi asperiores aspernatur autem consectetur culpa delectus dolorem eum eveniet ex facilis fuga fugiat fugit iure iusto magnam maxime mollitia natus nobis numquam omnis quae quia quidem quos recusandae rerum sequi similique soluta sunt ut vitae, voluptatum. Dicta, omnis.</span>
+  </div>
+{% endfor %}
+
+{% endblock body%}
