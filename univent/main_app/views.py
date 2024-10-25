@@ -35,3 +35,9 @@ def personal_account(request):
 def poster_redactor(request):
     data = {}
     return render(request, 'poster_redactor.html', context=data)
+
+
+def registration_page(request):
+    data = {}
+    return render(request, 'registration_page.html', context=data)
+
