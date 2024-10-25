@@ -13,3 +13,16 @@ class Poster(models.Model):
     def __str__(self):
         return f'{self.creator}_{self.title}'
 
+
+class User(models.Model):
+    name = models.CharField(max_length=255)
+    surname = models.CharField(max_length=255)
+    nickname = models.CharField(max_length=255)
+    age = models.IntegerField(blank=True, null=True)
+    about = models.TextField(blank=True, null=True)
+    hobby = models.TextField(blank=True, null=True)
+    is_creator = models.BooleanField(default=False)
+    events = models.ManyToManyField('Poster', related_name='poster')
+
+    def __str__(self):
+        return self.nickname
