@@ -11,3 +11,8 @@ def poster(request):
     return render(request, 'poster.html', context=data)
 
 
+def personal_account(request):
+    data = {}
+    return render(request, 'personal_account.html', context=data)
+
+
