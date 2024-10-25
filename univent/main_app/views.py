@@ -1,10 +1,14 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from base64 import b64encode, b64decode
 
-from .models import Poster
+from .forms import LoginUserForm
+from .models import Poster, User
+
 
 def index(request):
     data = {'var': 15}
     return render(request, 'index.html', context=data)
+
 
 def poster(request):
     data = {'posters': Poster.objects.all()}
@@ -12,8 +16,20 @@ def poster(request):
 
 
 def personal_account(request):
-    data = {}
-    return render(request, 'personal_account.html', context=data)
+    if request.method == 'POST':
+        form = LoginUserForm(request.POST)
+        if form.is_valid():
+            try:
+                if User.objects.filter(nickname=form.cleaned_data['nickname']):
+                    raise Exception
+                user = User(nickname=form.cleaned_data['nickname'], password=form.cleaned_data['password'])
+                user.save()
+                return redirect('index')
+            except:
+                form.add_error(None, 'Пользователь с таким ником уже существует')
+    else:
+        form = LoginUserForm()
+    return render(request, 'personal_account.html', {'form': form})
 
 
 def poster_redactor(request):

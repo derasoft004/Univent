@@ -15,9 +15,10 @@ class Poster(models.Model):
 
 
 class User(models.Model):
-    name = models.CharField(max_length=255)
-    surname = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, null=True)
+    surname = models.CharField(max_length=255, null=True)
     nickname = models.CharField(max_length=255)
+    password = models.CharField(max_length=255)
     age = models.IntegerField(blank=True, null=True)
     about = models.TextField(blank=True, null=True)
     hobby = models.TextField(blank=True, null=True)
