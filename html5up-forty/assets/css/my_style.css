@@ -1,0 +1,33 @@
+.main_description {
+    margin-top: 20px;    /* Отступ сверху */
+    margin-bottom: 20px; /* Отступ снизу */
+    margin-right: 100px; /* Отступ справа */
+    margin-left: 100px;     /* Отступ слева (по умолчанию 0) */
+    font-size: 40px;
+}
+
+.projectx_img {
+    width: 1200px;
+    height: 700px;
+    display: block;        /* Делаем изображение блочным элементом */
+    margin-left: auto;    /* Автоматические отступы слева */
+    margin-right: auto;
+}
+
+.post {
+    margin-top: 20px;    /* Отступ сверху */
+    margin-bottom: 20px; /* Отступ снизу */
+    margin-right: 100px; /* Отступ справа */
+    margin-left: 100px;     /* Отступ слева (по умолчанию 0) */
+    border: 1px solid #000; /* Установите цвет и толщину рамки */
+    border-radius: 10px;    /* Закругление углов */
+    font-size: 30px;
+}
+
+.event_name {
+    margin-left: 30px;
+}
+
+.event_description {
+    margin-left: 40px;
+}
