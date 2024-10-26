@@ -2,9 +2,9 @@
 {% load static %}
 
 {% block body %}
-<div class="posts-container">
+<div class="posts-container" style="margin-left: 1%; margin-right: 1%;">
 {% for poster in posters %}
-  <div class="post">
+  <div class="post" style="height: 100%; background-color: #337cf2; width: calc(33% - 16px);">
     <a href="{{ poster.get_absolute_url }}">
       <h3 class="event_name"><p>Мероприятие: {{ poster.title }}</p></h3>
       <img src="{% static 'images/posters_images/'|add:poster.preview_image %}" class="event_preview_image">
@@ -15,5 +15,33 @@
   </div>
 {% endfor %}
 </div>
+
+<script>
+    // Создаем элемент с классом post
+    const post = document.createElement('div');
+    post.className = 'post';
+    post.textContent = 'Post';
+    post.style.top = '400px'; // Начальная позиция
+
+    document.getElementById('container').appendChild(post);
+
+    // Функция для перемещения элемента
+    function movePost() {
+        const target = document.getElementById('target');
+        const targetRect = target.getBoundingClientRect();
+        const postRect = post.getBoundingClientRect();
+
+        // Расчет расстояния между верхней частью post и нижней частью target
+        const distance = targetRect.top - postRect.bottom;
+
+        // Перемещение на 1 пиксель вверх, пока расстояние не станет равным 5 пикселям
+        if (distance > 5) {
+            post.style.top = (parseInt(post.style.top) - 1) + 'px';
+            requestAnimationFrame(movePost); // Запрос следующего кадра
+        }
+    }
+
+    movePost(); // Запуск функции перемещения
+</script>
 
 {% endblock body%}

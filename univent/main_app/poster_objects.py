@@ -1,6 +1,3 @@
-from django.template.defaultfilters import title
-from django.utils.termcolors import background
-
 from .models import Poster
 from datetime import datetime
 

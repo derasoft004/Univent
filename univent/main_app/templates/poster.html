@@ -2,5 +2,16 @@
 {% load static %}
 
 {% block body %}
-{{post.title}}
+<h2 style="margin-left: 5%; margin-right: 5%; margin-top: 15px; margin-bottom: 15px;">{{ post.title }}</h2>
+<img src="{% static 'images/posters_images/'|add:post.background_image %}" style="width: 100%;">
+<div style="margin-left: 10%; margin-right: 10%; margin-top: 20px;">
+    <p style="text-transform: lowercase; ">Организатор: {{ post.creator }}</p>
+    <p>Место проведения: {{post.place}}</p>
+    <p>Время проведения: {{post.time_event}}</p>
+    <p style="font-weight: bold;">Дата и время: {{ post.time_event }}</p>
+    Цена одного билета: <p style="color: red; font-size: 1.2em;">{{ post.price }} руб.</p>
+    <p style="font-size: 30px;">{{ post.full_description }}</p>
+</div>
+
+
 {% endblock body%}
