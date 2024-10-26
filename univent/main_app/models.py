@@ -1,5 +1,6 @@
 from django.db import models
 from django.db.models import QuerySet
+from django.urls import reverse
 from django.utils.text import slugify
 
 from .util import translit_to_eng
@@ -24,6 +25,9 @@ class Poster(models.Model):
     def save(self, *args, **kwargs):
         self.slug = translit_to_eng(slugify(self.title, allow_unicode=True))
         super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse('poster', kwargs={'post_slug': self.slug})
 
 
 # p1 = Poster(title='БОЛЬШОЙ СОЛЬНЫЙ КОНЦЕРТ ВИА ВОЛГА-ВОЛГА', creator='Максимилианс - Клубный ресторан', short_description='Дудки, гармонь, гитары, барабаны — адепт придуманного им «волжского расколбаса»...', full_description='Дудки, гармонь, гитары, барабаны — адепт придуманного им «волжского расколбаса», ВИА «Волга-Волга» 16 ноября дает большой сольный концерт в Самаре!\n\nСтилистическое направление музыканты определяют как ска-фолк-рок-бардак и приправляют его легким городским романсом .\n\nВ программе концерта - авторские хиты из нового альбома группы и самые забойные каверы.\n\nТанцевать будут все!\n\nВ 2022 году группа отметила 25-летие. Сегодн я «Волга-Волга» дает более 150 концертов в год, участвует в знаковых музыкальных фестивалях и масштабных проектах страны, ежегодно организует и проводит собственныйодноименный музыкальный фестиваль.\n\nПесни «Волги-Волги» находятся в ротации на федеральных радиостанциях, звучат в фильмах и сериалах.\n\nОснователь и солист группы — Антон Салакаев.', time_event=datetime(2024, 10, 30, 15, 30), preview_image='images/poster1_preview.webp')

@@ -1,6 +1,5 @@
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
-from base64 import b64encode, b64decode
+from django.shortcuts import render, redirect, get_object_or_404
 
 from .forms import LoginUserForm, RegisterUserForm
 from .models import Poster, User
@@ -17,7 +16,10 @@ def posters(request):
 
 
 def poster(request, post_slug):
-    return render(request, 'poster.html', post_slug)
+    post = get_object_or_404(Poster, slug=post_slug)
+    context = {'post': post}
+    return render(request, 'poster.html', context=context)
+
 
 def personal_account(request):
 
