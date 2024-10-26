@@ -2,14 +2,13 @@
 {% load static %}
 
 {% block body %}
-
 {% for poster in posters %}
   <div class="post">
     <h3 class="event_name"> Мероприятие: {{ poster.title }}</h3>
-    <img src="{% static 'images/'|add:poster.preview_image %}" class="event_description">
-    <span class="event_description"> Организатор:  {{ poster.creator }}</span>
-    <span class="event_description"> Краткое описание: {{ poster.short_description }}</span>
-    <span class="event_description"> Время проведения: {{ poster.time_event }}</span>
+    <img src="{% static 'images/posters_images/'|add:poster.preview_image %}" class="event_preview_image">
+    <span class="event_creator"> Организатор:  {{ poster.creator }}</span>
+    <span class="event_short_description"> Краткое описание: {{ poster.short_description }}</span>
+    <span class="event_date"> Время проведения: {{ poster.time_event }}</span>
   </div>
 {% endfor %}
 
