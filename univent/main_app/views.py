@@ -6,7 +6,7 @@ from .models import Poster, User
 
 
 def index(request):
-    data = {'var': 15}
+    data = {'posters': Poster.objects.all()}
     return render(request, 'index.html', context=data)
 
 
