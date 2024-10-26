@@ -1,7 +1,8 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
+from django.views.generic import ListView
 
-from .forms import LoginUserForm, RegisterUserForm
+from .forms import LoginUserForm, RegisterUserForm, RegisterPosterForm
 from .models import Poster, User
 
 
@@ -10,9 +11,16 @@ def index(request):
     return render(request, 'index.html', context=data)
 
 
-def posters(request):
-    data = {'posters': Poster.objects.all()}
-    return render(request, 'posters.html', context=data)
+class Posters(ListView):
+    # data = {'posters': Poster.objects.all()}
+    # return render(request, 'posters.html', context=data)
+    model = Poster
+    template_name = 'posters.html'
+    context_object_name = 'posters'
+    paginate_by = 3
+    extra_context = {
+        'posters': Poster.objects.all(),
+    }
 
 
 def poster(request, post_slug):
@@ -28,8 +36,24 @@ def personal_account(request):
 
 
 def poster_redactor(request):
-    data = {}
-    return render(request, 'poster_redactor.html', context=data)
+    if request.method == 'POST':
+        form = RegisterPosterForm(request.POST)
+        if form.is_valid():
+            try:
+                poster = Poster(title=form.cleaned_data['title'],
+                                place=form.cleaned_data['place'],
+                                price=form.cleaned_data['price'],
+                                short_description=form.cleaned_data['short_description'],
+                                full_description=form.cleaned_data['full_description'],
+                                time_event=form.cleaned_data['time_event'])
+                poster.save()
+                return redirect('posters')
+            except:
+                form.add_error(None, 'Не удалось создать обьявление')
+    else:
+        form = RegisterPosterForm()
+    data = {'form': form}
+    return render(request, 'registration_page.html', context=data)
 
 
 def registration_page(request):

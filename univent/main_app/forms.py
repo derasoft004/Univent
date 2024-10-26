@@ -13,3 +13,13 @@ class RegisterUserForm(forms.Form):
     hobby = forms.CharField(label="Какие у вас хобби", widget=forms.TextInput, required=False)
     nickname = forms.CharField(max_length=255, label="Имя пользователя", widget=forms.TextInput)
     password = forms.CharField(max_length=255, label="Пароль", widget=forms.PasswordInput)
+
+
+class RegisterPosterForm(forms.Form):
+    title = forms.CharField(max_length=255, label="Введите название мероприятия", widget=forms.TextInput, required=False)
+    place = forms.CharField(max_length=255, label="Выберите место проведения", widget=forms.TextInput, required=False)
+    price = forms.IntegerField(label="Цена входа", widget=forms.TextInput, required=False)
+    short_description = forms.CharField(label="Краткое описание", widget=forms.TextInput, required=False)
+    full_description = forms.CharField(max_length=1023, label="Подробное описание", widget=forms.TextInput)
+    time_event = forms.DateTimeField(label="Дата и время проведения", widget=forms.DateTimeInput)
+

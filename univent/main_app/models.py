@@ -15,7 +15,7 @@ class Poster(models.Model):
     short_description = models.TextField(blank=True, null=True)
     full_description = models.TextField(blank=True, null=True)
     time_create = models.DateTimeField(auto_now_add=True)
-    time_event = models.DateTimeField(auto_now_add=True)
+    time_event = models.DateTimeField()
     preview_image = models.CharField(max_length=255, null=True, blank=True)
     background_image = models.CharField(max_length=255, null=True, blank=True)
 
