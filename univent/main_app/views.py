@@ -11,10 +11,13 @@ def index(request):
     return render(request, 'index.html', context=data)
 
 
-def poster(request):
+def posters(request):
     data = {'posters': Poster.objects.all()}
-    return render(request, 'poster.html', context=data)
+    return render(request, 'posters.html', context=data)
 
+
+def poster(request, post_slug):
+    return render(request, 'poster.html', post_slug)
 
 def personal_account(request):
 

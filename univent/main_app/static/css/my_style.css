@@ -28,6 +28,7 @@
     padding: 16px; /* Внутренние отступы */
     background-color: #f9f9f9; /* Цвет фона */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Тень для глубины */
+    background-color: #5922e3;
 }
 
 /* Заголовок мероприятия */
