@@ -26,3 +26,6 @@ class RegisterPosterForm(forms.Form):
 
 class SignForPoster(forms.Form):
     btn = forms.CharField()
+
+class SignForPoster(forms.Form):
+    btn = forms.CharField()
