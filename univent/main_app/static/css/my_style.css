@@ -14,20 +14,54 @@
     margin-right: auto;
 }
 
+.posts-container {
+    display: flex; /* Включаем Flexbox */
+    flex-wrap: wrap; /* Позволяет элементам переноситься на новую строку */
+    justify-content: space-between; /* Распределяет пространство между элементами */
+}
+
 .post {
-    margin-top: 20px;    /* Отступ сверху */
-    margin-bottom: 20px; /* Отступ снизу */
-    margin-right: 100px; /* Отступ справа */
-    margin-left: 100px;     /* Отступ слева (по умолчанию 0) */
-    border: 1px solid #000; /* Установите цвет и толщину рамки */
-    border-radius: 10px;    /* Закругление углов */
-    font-size: 30px;
+    width: calc(33.33% - 16px); /* Устанавливаем ширину блока на 1/3 с учетом отступов */
+    margin: 8px; /* Внешние отступы для создания пространства между блоками */
+    border: 1px solid #ccc; /* Граница вокруг блока */
+    border-radius: 8px; /* Закругленные углы */
+    padding: 16px; /* Внутренние отступы */
+    background-color: #f9f9f9; /* Цвет фона */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Тень для глубины */
 }
 
+/* Заголовок мероприятия */
 .event_name {
-    margin-left: 30px;
+    font-size: 1.5em; /* Размер шрифта */
+    color: #333; /* Цвет текста */
+    margin-bottom: 8px; /* Отступ снизу */
 }
 
-.event_description {
-    margin-left: 40px;
+/* Изображение мероприятия */
+.event_preview_image {
+    width: 100%; /* Ширина изображения 100% от родителя */
+    height: auto; /* Автоматическая высота */
+    border-radius: 4px; /* Закругленные углы */
+    margin-bottom: 12px; /* Отступ снизу */
+}
+
+/* Организатор мероприятия */
+.event_creator {
+    display: block; /* Отображение в блоке */
+    font-weight: bold; /* Жирный текст */
+    margin-bottom: 4px; /* Отступ снизу */
+}
+
+/* Краткое описание мероприятия */
+.event_short_description {
+    display: block; /* Отображение в блоке */
+    margin-bottom: 4px; /* Отступ снизу */
+    color: #555; /* Цвет текста */
+}
+
+/* Время проведения мероприятия */
+.event_date {
+    display: block; /* Отображение в блоке */
+    font-style: italic; /* Курсив */
+    color: #777; /* Цвет текста */
 }
