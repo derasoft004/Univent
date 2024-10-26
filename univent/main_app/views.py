@@ -41,3 +41,6 @@ def registration_page(request):
     data = {'form': form}
     return render(request, 'registration_page.html', context=data)
 
+
+def login_page(request):
+    return render(request, 'login_page.html')
