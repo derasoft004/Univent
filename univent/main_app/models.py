@@ -4,6 +4,7 @@ from django.db import models
 class Poster(models.Model):
     title = models.CharField(max_length=255)
     creator = models.CharField(max_length=255)
+    place = models.CharField(max_length=255)
     short_description = models.TextField(blank=True, null=True)
     full_description = models.TextField(blank=True, null=True)
     time_create = models.DateTimeField(auto_now_add=True)
