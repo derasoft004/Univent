@@ -23,3 +23,6 @@ class RegisterPosterForm(forms.Form):
     full_description = forms.CharField(max_length=1023, label="Подробное описание", widget=forms.TextInput)
     time_event = forms.DateTimeField(label="Дата и время проведения", widget=forms.DateTimeInput)
 
+
+class SignForPoster(forms.Form):
+    btn = forms.CharField()

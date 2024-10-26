@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView
 
-from .forms import LoginUserForm, RegisterUserForm, RegisterPosterForm
+from .forms import LoginUserForm, RegisterUserForm, RegisterPosterForm, SignForPoster
 from .models import Poster, User
 
 
@@ -25,7 +25,13 @@ class Posters(ListView):
 
 def poster(request, post_slug):
     post = get_object_or_404(Poster, slug=post_slug)
-    context = {'post': post}
+    if request.method == 'POST':
+        form = SignForPoster(request.POST)
+        if form.is_valid():
+            return redirect('personal_account')
+    else:
+        form = SignForPoster()
+    context = {'post': post, 'form': form}
     return render(request, 'poster.html', context=context)
 
 
@@ -70,7 +76,9 @@ def registration_page(request):
                             age=form.cleaned_data['age'],
                             hobby=form.cleaned_data['hobby'])
                 user.save()
-                return redirect('index')
+                rsp = redirect('index')
+                rsp.set_cookie('nickname', form.cleaned_data['nickname'])
+                return rsp
             except:
                 form.add_error(None, 'Пользователь с таким ником уже существует')
     else:
