@@ -23,11 +23,12 @@
         </div>
     </div>
     <p style="font-size: 30px; margin-top: 20px;">{{ post.full_description }}</p>
-</div>
-<form method="POST">
+    <form method="POST">
  {% csrf_token %}
- <input type="submit" name="btn" value="Записаться">
+ <input type="submit" name="btn" value="Записаться" style="">
 </form>
+</div>
+
 
 
 

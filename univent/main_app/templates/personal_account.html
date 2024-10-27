@@ -13,32 +13,51 @@
 										<h1>{{ user.nickname }}</h1>
 									</header>
 									<span class="image main"><img src="{% static "images/pic11.jpg" %}" alt="" /></span>
-									<p>Имя: {{ user.name }}</p>
-									<p>Фамилия: {{ user.surname }}</p>
-									<p>Возраст: {{ user.age }} лет</p>
-									<p>Хобби: {{ user.hobby }}</p>
-									<p>Созданные мероприятия:
-										{% for event in events %}
-										<el>
-									<li>Название: {{ event.title }}</li>
-									<li>Место: {{ event.place }}</li>
-									<li>Цена: {{ event.price }} руб.</li>
-									<li>Краткое описание: {{ event.short_description }}</li>
-									<li>Полное описание: {{ event.full_description }}</li>
-								</el>
-										{% endfor %}
+									<div style="display: flex; justify-content: space-between; width: 100%;">
+										<div style="flex: 1; text-align: left;">
+											<p>Имя: {{ user.name }}</p>
+											<p>Фамилия: {{ user.surname }}</p>
+										</div>
+										<div style="flex: 1; text-align: right;">
+											<p>Возраст: {{ user.age }} лет</p>
+											<p>Хобби: {{ user.hobby }}</p>
+										</div>
+									</div>
+									<h4 style="font-size: 25px;">Созданные мероприятия:</h4>
+										{% if products|length > 0 %}
+											{% for event in events %}
+											<el>
+												<li>Название: {{ event.title }}</li>
+												<li>Место: {{ event.place }}</li>
+												<li>Цена: {{ event.price }} руб.</li>
+												<li>Краткое описание: {{ event.short_description }}</li>
+												<li>Полное описание: {{ event.full_description }}</li>
+											</el>
+											{% endfor %}
+										{% else %}
+											список пуст
+										{% endif %}
 									</p>
-									<p>Иду на:
+									<h4 style="font-size: 25px;">Иду на:</h4>
+										{% if products|length > 0 %}
 										{% for event in subs %}
 										<el>
-									<li>Название: {{ event.title }}</li>
-									<li>Место: {{ event.place }}</li>
-									<li>Цена: {{ event.price }} руб.</li>
-									<li>Краткое описание: {{ event.short_description }}</li>
-									<li>Полное описание: {{ event.full_description }}</li>
-								</el>
+											<li>Название: {{ event.title }}</li>
+											<li>Место: {{ event.place }}</li>
+											<li>Цена: {{ event.price }} руб.</li>
+											<li>Краткое описание: {{ event.short_description }}</li>
+											<li>Полное описание: {{ event.full_description }}</li>
+										</el>
+										<style>
+											li {
+												font-size: 25px;
+											}
+										</style>
 										{% endfor %}
 									</p>
+									{% else %}
+									список пуст
+									{% endif %}
 								</div>
 								<div>
 							<h1><a href="{% url 'poster_redactor' %}">Создать мероприятие</a></h1>
