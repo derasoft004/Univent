@@ -1,5 +1,4 @@
 from django.db import models
-from django.db.models import QuerySet
 from django.urls import reverse
 from django.utils.text import slugify
 
@@ -18,6 +17,7 @@ class Poster(models.Model):
     time_event = models.DateTimeField()
     preview_image = models.CharField(max_length=255, null=True, blank=True)
     background_image = models.CharField(max_length=255, null=True, blank=True)
+    subscribers = models.ManyToManyField('User', related_name='user')
 
     def __str__(self):
         return f'{self.creator}_{self.title}'
@@ -43,7 +43,6 @@ class User(models.Model):
     hobby = models.TextField(blank=True, null=True)
     is_creator = models.BooleanField(default=False)
     events = models.ManyToManyField('Poster', related_name='poster')
-    QuerySet()
 
     def __str__(self):
         return self.nickname

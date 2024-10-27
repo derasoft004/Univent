@@ -17,7 +17,6 @@ class Posters(ListView):
     model = Poster
     template_name = 'posters.html'
     context_object_name = 'posters'
-    paginate_by = 3
     extra_context = {
         'posters': Poster.objects.all(),
     }
@@ -28,7 +27,12 @@ def poster(request, post_slug):
     if request.method == 'POST':
         form = SignForPoster(request.POST)
         if form.is_valid():
-            return redirect('personal_account')
+            try:
+                user = User.objects.get(nickname=request.COOKIES['nickname'])
+                post.subscribers.add(user)
+                return redirect('personal_account')
+            except:
+                return redirect('login_page')
     else:
         form = SignForPoster()
     context = {'post': post, 'form': form}
@@ -36,8 +40,16 @@ def poster(request, post_slug):
 
 
 def personal_account(request):
+    try:
+        user = User.objects.get(nickname=request.COOKIES['nickname'])
 
-    user_data = {}
+        user_data = {
+            'user': user,
+            'events': user.events.all(),
+            'subs': Poster.objects.filter(subscribers__nickname=request.COOKIES['nickname']),
+        }
+    except:
+        return redirect('login_page')
     return render(request, 'personal_account.html', context=user_data)
 
 
@@ -46,13 +58,16 @@ def poster_redactor(request):
         form = RegisterPosterForm(request.POST)
         if form.is_valid():
             try:
-                poster = Poster(title=form.cleaned_data['title'],
-                                place=form.cleaned_data['place'],
-                                price=form.cleaned_data['price'],
-                                short_description=form.cleaned_data['short_description'],
-                                full_description=form.cleaned_data['full_description'],
-                                time_event=form.cleaned_data['time_event'])
-                poster.save()
+                user = User.objects.get(nickname=request.COOKIES['nickname'])
+                user.events.create(title=form.cleaned_data['title'],
+                                   place=form.cleaned_data['place'],
+                                   price=form.cleaned_data['price'],
+                                   creator=request.COOKIES['nickname'],
+                                   short_description=form.cleaned_data['short_description'],
+                                   full_description=form.cleaned_data['full_description'],
+                                   time_event=form.cleaned_data['time_event'])
+
+                user.save()
                 return redirect('posters')
             except:
                 form.add_error(None, 'Не удалось создать обьявление')
@@ -93,10 +108,18 @@ def login_page(request):
         if form.is_valid():
             if not User.objects.filter(nickname=form.cleaned_data['nickname']):
                 return redirect('registration_page')
-            elif User.objects.filter(nickname=form.cleaned_data['nickname'])[0].password != form.cleaned_data['password']:
+            elif User.objects.filter(nickname=form.cleaned_data['nickname'])[0].password != form.cleaned_data[
+                'password']:
                 form.add_error(None, 'Неправильно указан пароль')
             else:
-                return redirect('index')
+                try:
+                    User.objects.get(nickname=request.COOKIES['nickname'])
+                    return redirect('index')
+                except:
+                    rsp = redirect('index')
+                    rsp.set_cookie('nickname', form.cleaned_data['nickname'])
+                    return rsp
+
 
     else:
         form = LoginUserForm()

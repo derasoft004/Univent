@@ -5,20 +5,43 @@
 
 				<!-- Main -->
 					<div id="main" class="alt">
-						<div>
-							<h1><a href="{% url 'poster_redactor' %}">poster_redactor</a></h1>
-						</div>
 
 						<!-- One -->
 							<section id="one">
 								<div class="inner">
 									<header class="major">
-										<h1>Generic</h1>
+										<h1>{{ user.nickname }}</h1>
 									</header>
 									<span class="image main"><img src="{% static "images/pic11.jpg" %}" alt="" /></span>
-									<p>Donec eget ex magna. Interdum et malesuada fames ac ante ipsum primis in faucibus. Pellentesque venenatis dolor imperdiet dolor mattis sagittis. Praesent rutrum sem diam, vitae egestas enim auctor sit amet. Pellentesque leo mauris, consectetur id ipsum sit amet, fergiat. Pellentesque in mi eu massa lacinia malesuada et a elit. Donec urna ex, lacinia in purus ac, pretium pulvinar mauris. Curabitur sapien risus, commodo eget turpis at, elementum convallis elit. Pellentesque enim turpis, hendrerit.</p>
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis dapibus rutrum facilisis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Etiam tristique libero eu nibh porttitor fermentum. Nullam venenatis erat id vehicula viverra. Nunc ultrices eros ut ultricies condimentum. Mauris risus lacus, blandit sit amet venenatis non, bibendum vitae dolor. Nunc lorem mauris, fringilla in aliquam at, euismod in lectus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. In non lorem sit amet elit placerat maximus. Pellentesque aliquam maximus risus, vel sed vehicula.</p>
-									<p>Interdum et malesuada fames ac ante ipsum primis in faucibus. Pellentesque venenatis dolor imperdiet dolor mattis sagittis. Praesent rutrum sem diam, vitae egestas enim auctor sit amet. Pellentesque leo mauris, consectetur id ipsum sit amet, fersapien risus, commodo eget turpis at, elementum convallis elit. Pellentesque enim turpis, hendrerit tristique lorem ipsum dolor.</p>
+									<p>Имя: {{ user.name }}</p>
+									<p>Фамилия: {{ user.surname }}</p>
+									<p>Возраст: {{ user.age }} лет</p>
+									<p>Хобби: {{ user.hobby }}</p>
+									<p>Созданные мероприятия:
+										{% for event in events %}
+										<el>
+									<li>Название: {{ event.title }}</li>
+									<li>Место: {{ event.place }}</li>
+									<li>Цена: {{ event.price }} руб.</li>
+									<li>Краткое описание: {{ event.short_description }}</li>
+									<li>Полное описание: {{ event.full_description }}</li>
+								</el>
+										{% endfor %}
+									</p>
+									<p>Иду на:
+										{% for event in subs %}
+										<el>
+									<li>Название: {{ event.title }}</li>
+									<li>Место: {{ event.place }}</li>
+									<li>Цена: {{ event.price }} руб.</li>
+									<li>Краткое описание: {{ event.short_description }}</li>
+									<li>Полное описание: {{ event.full_description }}</li>
+								</el>
+										{% endfor %}
+									</p>
+								</div>
+								<div>
+							<h1><a href="{% url 'poster_redactor' %}">Создать мероприятие</a></h1>
 								</div>
 							</section>
 
