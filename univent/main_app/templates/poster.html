@@ -11,7 +11,7 @@
             <p>Место проведения: {{ post.place }}</p>
             <p>Время проведения: {{ post.time_event }}</p>
             <p style="font-weight: bold;">Дата и время: {{ post.time_event }}</p>
-            <p>Цена одного билета: <span style="color: red; font-size: 1.2em;">{{ post.price }} руб.</span></p>
+            <p>Цена одного билета: <span style="color: green; font-size: 1.2em;">{{ post.price }} руб.</span></p>
         </div>
         <div style="flex: 1;">
             <div style="position: relative; overflow: hidden;">
@@ -24,9 +24,9 @@
     </div>
     <p style="font-size: 30px; margin-top: 20px;">{{ post.full_description }}</p>
     <form method="POST">
- {% csrf_token %}
- <input type="submit" name="btn" value="Записаться" style="">
-</form>
+        {% csrf_token %}
+        <input type="submit" name="btn" value="Записаться" style="">
+    </form>
 </div>
 
 

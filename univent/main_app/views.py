@@ -28,6 +28,7 @@ def poster(request, post_slug):
         form = SignForPoster(request.POST)
         if form.is_valid():
             try:
+                # todo переделать обработчик исключений на проверку request.COOKIES['nickname']
                 user = User.objects.get(nickname=request.COOKIES['nickname'])
                 post.subscribers.add(user)
                 return redirect('personal_account')
@@ -91,7 +92,7 @@ def registration_page(request):
                             age=form.cleaned_data['age'],
                             hobby=form.cleaned_data['hobby'])
                 user.save()
-                rsp = redirect('index')
+                rsp = redirect('login_page')
                 rsp.set_cookie('nickname', form.cleaned_data['nickname'])
                 return rsp
             except:
@@ -108,8 +109,8 @@ def login_page(request):
         if form.is_valid():
             if not User.objects.filter(nickname=form.cleaned_data['nickname']):
                 return redirect('registration_page')
-            elif User.objects.filter(nickname=form.cleaned_data['nickname'])[0].password != form.cleaned_data[
-                'password']:
+            elif User.objects.filter(nickname=form.cleaned_data['nickname'])[0].password \
+                    != form.cleaned_data['password']:
                 form.add_error(None, 'Неправильно указан пароль')
             else:
                 try:
