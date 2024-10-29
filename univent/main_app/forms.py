@@ -1,4 +1,5 @@
 from django import forms
+from django.forms import DateInput, TimeInput, DateTimeInput
 
 
 class LoginUserForm(forms.Form):
@@ -16,7 +17,8 @@ class RegisterUserForm(forms.Form):
 
 
 class RegisterPosterForm(forms.Form):
-    title = forms.CharField(max_length=255, label="Введите название мероприятия", widget=forms.TextInput, required=False)
+    title = forms.CharField(max_length=255, label="Введите название мероприятия", widget=forms.TextInput,
+                            required=False)
     place = forms.CharField(max_length=255, label="Выберите место проведения", widget=forms.TextInput, required=False)
     price = forms.IntegerField(label="Цена входа", widget=forms.TextInput, required=False)
     short_description = forms.CharField(label="Краткое описание", widget=forms.TextInput, required=False)
@@ -25,7 +27,6 @@ class RegisterPosterForm(forms.Form):
 
 
 class SignForPoster(forms.Form):
-    btn = forms.CharField()
-
-class SignForPoster(forms.Form):
-    btn = forms.CharField()
+    comment = forms.CharField(max_length=255, label="Описание к заявке", widget=forms.TextInput,
+                              required=False)
+    datetime_field = forms.DateTimeField(label="Удобное время для связи", widget=DateTimeInput(attrs={'type': 'datetime-local'}))
