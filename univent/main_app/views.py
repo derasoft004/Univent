@@ -78,6 +78,31 @@ def poster_redactor(request):
     return render(request, 'registration_page.html', context=data)
 
 
+def submit_application(request):
+    # todo - страница с отправлением заявки модераторам
+    if request.method == 'POST':
+        form = RegisterPosterForm(request.POST)
+        if form.is_valid():
+            try:
+                user = User.objects.get(nickname=request.COOKIES['nickname'])
+                user.events.create(title=form.cleaned_data['title'],
+                                   place=form.cleaned_data['place'],
+                                   price=form.cleaned_data['price'],
+                                   creator=request.COOKIES['nickname'],
+                                   short_description=form.cleaned_data['short_description'],
+                                   full_description=form.cleaned_data['full_description'],
+                                   time_event=form.cleaned_data['time_event'])
+
+                user.save()
+                return redirect('posters')
+            except:
+                form.add_error(None, 'Не удалось создать обьявление')
+    else:
+        form = RegisterPosterForm()
+    data = {'form': form}
+    return render(request, 'registration_page.html', context=data)
+
+
 def registration_page(request):
     if request.method == 'POST':
         form = RegisterUserForm(request.POST)

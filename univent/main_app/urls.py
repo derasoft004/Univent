@@ -9,4 +9,5 @@ urlpatterns = [
     path('registration_page/', views.registration_page, name='registration_page'),
     path('login_page/', views.login_page, name='login_page'),
     path('posters/<slug:post_slug>/', views.poster, name='poster'),
+    path('submit_application/', views.submit_application, name='submit_application'),
 ]
