@@ -46,3 +46,10 @@ class User(models.Model):
 
     def __str__(self):
         return self.nickname
+
+
+class Application(models.Model):
+    senders = models.ForeignKey('User', related_name='senders', on_delete=models.PROTECT)
+    events = models.ForeignKey('Poster', related_name='events', on_delete=models.PROTECT)
+    desc = models.TextField(blank=True, null=True)
+    call_time = models.DateTimeField()

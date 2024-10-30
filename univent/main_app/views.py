@@ -1,9 +1,8 @@
-from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView
 
 from .forms import LoginUserForm, RegisterUserForm, RegisterPosterForm, SignForPoster
-from .models import Poster, User
+from .models import Poster, User, Application
 
 
 def index(request):
@@ -30,7 +29,13 @@ def poster(request, post_slug):
             try:
                 # todo переделать обработчик исключений на проверку request.COOKIES['nickname']
                 user = User.objects.get(nickname=request.COOKIES['nickname'])
-                post.subscribers.add(user)
+                application = Application(
+                    senders=user,
+                    events=post,
+                    desc=form.cleaned_data['comment'],
+                    call_time=form.cleaned_data['datetime_field'],
+                )
+                application.save()
                 return redirect('personal_account')
             except:
                 return redirect('login_page')
@@ -43,11 +48,11 @@ def poster(request, post_slug):
 def personal_account(request):
     try:
         user = User.objects.get(nickname=request.COOKIES['nickname'])
-
+        subs = [application.events for application in Application.objects.filter(senders=user)]
         user_data = {
             'user': user,
             'events': user.events.all(),
-            'subs': Poster.objects.filter(subscribers__nickname=request.COOKIES['nickname']),
+            'subs': subs,
         }
     except:
         return redirect('login_page')
@@ -79,6 +84,7 @@ def poster_redactor(request):
 
 
 def submit_application(request):
+    pass
     # todo - страница с отправлением заявки модераторам
     # if request.method == 'POST':
     #     form = RegisterPosterForm(request.POST)
@@ -100,7 +106,7 @@ def submit_application(request):
     # else:
     #     form = RegisterPosterForm()
     # data = {'form': form}
-    return render(request, 'submit_application.html', context=data)
+    # return render(request, 'submit_application.html', context=data)
 
 
 def registration_page(request):
