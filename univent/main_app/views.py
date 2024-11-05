@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView
 
-from .forms import LoginUserForm, RegisterUserForm, RegisterPosterForm, SignForPoster
+from .forms import LoginUserForm, RegisterUserForm, RegisterPosterForm, SubmitApplicationForm
 from .models import Poster, User, Application
 
 
@@ -24,23 +24,15 @@ class Posters(ListView):
 def poster(request, post_slug):
     post = get_object_or_404(Poster, slug=post_slug)
     if request.method == 'POST':
-        form = SignForPoster(request.POST)
+        form = SubmitApplicationForm(request.POST)
         if form.is_valid():
             try:
-                # todo переделать обработчик исключений на проверку request.COOKIES['nickname']
+                # todo кнопка записаться
                 user = User.objects.get(nickname=request.COOKIES['nickname'])
-                application = Application(
-                    senders=user,
-                    events=post,
-                    desc=form.cleaned_data['comment'],
-                    call_time=form.cleaned_data['datetime_field'],
-                )
-                application.save()
-                return redirect('personal_account')
             except:
                 return redirect('login_page')
     else:
-        form = SignForPoster()
+        form = SubmitApplicationForm()
     context = {'post': post, 'form': form}
     return render(request, 'poster.html', context=context)
 
@@ -48,11 +40,11 @@ def poster(request, post_slug):
 def personal_account(request):
     try:
         user = User.objects.get(nickname=request.COOKIES['nickname'])
-        subs = [application.events for application in Application.objects.filter(senders=user)]
+        applications = [application for application in Application.objects.filter(sender=user)]
         user_data = {
             'user': user,
             'events': user.events.all(),
-            'subs': subs,
+            'applications': applications,
         }
     except:
         return redirect('login_page')
@@ -86,27 +78,25 @@ def poster_redactor(request):
 def submit_application(request):
     pass
     # todo - страница с отправлением заявки модераторам
-    # if request.method == 'POST':
-    #     form = RegisterPosterForm(request.POST)
-    #     if form.is_valid():
-    #         try:
-    #             user = User.objects.get(nickname=request.COOKIES['nickname'])
-    #             user.events.create(title=form.cleaned_data['title'],
-    #                                place=form.cleaned_data['place'],
-    #                                price=form.cleaned_data['price'],
-    #                                creator=request.COOKIES['nickname'],
-    #                                short_description=form.cleaned_data['short_description'],
-    #                                full_description=form.cleaned_data['full_description'],
-    #                                time_event=form.cleaned_data['time_event'])
-    #
-    #             user.save()
-    #             return redirect('posters')
-    #         except:
-    #             form.add_error(None, 'Не удалось создать обьявление')
-    # else:
-    #     form = RegisterPosterForm()
-    # data = {'form': form}
-    # return render(request, 'submit_application.html', context=data)
+    if request.method == 'POST':
+        form = SubmitApplicationForm(request.POST)
+        if form.is_valid():
+            # try:
+                user = User.objects.get(nickname=request.COOKIES['nickname'])
+                application = Application(
+                    sender=user,
+                    title=form.cleaned_data['title'],
+                    description=form.cleaned_data['description'],
+                    call_time=form.cleaned_data['call_time']
+                )
+                application.save()
+                return redirect('personal_account')
+            # except:
+            #     form.add_error(None, 'Не удалось оставить заявку')
+    else:
+        form = SubmitApplicationForm()
+    data = {'form': form}
+    return render(request, 'submit_application.html', context=data)
 
 
 def registration_page(request):
@@ -123,7 +113,7 @@ def registration_page(request):
                             age=form.cleaned_data['age'],
                             hobby=form.cleaned_data['hobby'])
                 user.save()
-                rsp = redirect('login_page')
+                rsp = redirect('personal_account')
                 rsp.set_cookie('nickname', form.cleaned_data['nickname'])
                 return rsp
             except:
@@ -146,7 +136,7 @@ def login_page(request):
             else:
                 try:
                     User.objects.get(nickname=request.COOKIES['nickname'])
-                    return redirect('index')
+                    return redirect('personal_account')
                 except:
                     rsp = redirect('index')
                     rsp.set_cookie('nickname', form.cleaned_data['nickname'])

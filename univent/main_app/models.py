@@ -30,9 +30,6 @@ class Poster(models.Model):
         return reverse('poster', kwargs={'post_slug': self.slug})
 
 
-# p1 = Poster(title='БОЛЬШОЙ СОЛЬНЫЙ КОНЦЕРТ ВИА ВОЛГА-ВОЛГА', creator='Максимилианс - Клубный ресторан', short_description='Дудки, гармонь, гитары, барабаны — адепт придуманного им «волжского расколбаса»...', full_description='Дудки, гармонь, гитары, барабаны — адепт придуманного им «волжского расколбаса», ВИА «Волга-Волга» 16 ноября дает большой сольный концерт в Самаре!\n\nСтилистическое направление музыканты определяют как ска-фолк-рок-бардак и приправляют его легким городским романсом .\n\nВ программе концерта - авторские хиты из нового альбома группы и самые забойные каверы.\n\nТанцевать будут все!\n\nВ 2022 году группа отметила 25-летие. Сегодн я «Волга-Волга» дает более 150 концертов в год, участвует в знаковых музыкальных фестивалях и масштабных проектах страны, ежегодно организует и проводит собственныйодноименный музыкальный фестиваль.\n\nПесни «Волги-Волги» находятся в ротации на федеральных радиостанциях, звучат в фильмах и сериалах.\n\nОснователь и солист группы — Антон Салакаев.', time_event=datetime(2024, 10, 30, 15, 30), preview_image='images/poster1_preview.webp')
-
-
 class User(models.Model):
     name = models.CharField(max_length=255, null=True)
     surname = models.CharField(max_length=255, null=True)
@@ -49,7 +46,8 @@ class User(models.Model):
 
 
 class Application(models.Model):
-    senders = models.ForeignKey('User', related_name='senders', on_delete=models.PROTECT)
-    events = models.ForeignKey('Poster', related_name='events', on_delete=models.PROTECT)
-    desc = models.TextField(blank=True, null=True)
+    time_create = models.DateTimeField(auto_now_add=True)
+    sender = models.ForeignKey('User', related_name='sender', on_delete=models.PROTECT)
+    title = models.CharField(max_length=255, blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
     call_time = models.DateTimeField()

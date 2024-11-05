@@ -23,13 +23,24 @@
 											<p>Хобби: {{ user.hobby }}</p>
 										</div>
 									</div>
-									<h4 style="font-size: 25px;">Созданные мероприятия:</h4>
+									<p>
+										<h4 style="font-size: 25px;">Созданные мероприятия:</h4>
 											{% for event in events %}
 											<el>
 												<li>Мероприятие: {{ event.title }}</li>
 												<li>Место: {{ event.place }}</li>
 												<li>Время: {{ event.time_event }}</li>
 												<li>Цена: {{ event.price }} руб.</li>
+											</el>
+											{% endfor %}
+									</p>
+									<p>
+										<h4 style="font-size: 25px;">Ваши заявки:</h4>
+											{% for application in applications %}
+											<el>
+												<li>Заявка: {{ application.title }}</li>
+												<li>Описание заявки: {{ application.description }}</li>
+												<li>Удобное время: {{ application.call_time }}</li>
 											</el>
 											{% endfor %}
 									</p>
