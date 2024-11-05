@@ -39,7 +39,7 @@ class User(models.Model):
     about = models.TextField(blank=True, null=True)
     hobby = models.TextField(blank=True, null=True)
     is_creator = models.BooleanField(default=False)
-    events = models.ManyToManyField('Poster', related_name='poster')
+    created_events = models.ManyToManyField('Poster', related_name='poster')
 
     def __str__(self):
         return self.nickname

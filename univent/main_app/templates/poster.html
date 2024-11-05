@@ -25,7 +25,7 @@
     <p style="font-size: 30px; margin-top: 20px;">{{ post.full_description }}</p>
     <form method="POST">
         {% csrf_token %}
-        <span>{{ form.as_p }}</span>
+        <input type="submit" name="btn" value="Sing">
     </form>
 </div>
 

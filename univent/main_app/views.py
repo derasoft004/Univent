@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView
 
-from .forms import LoginUserForm, RegisterUserForm, RegisterPosterForm, SubmitApplicationForm
+from .forms import LoginUserForm, RegisterUserForm, RegisterPosterForm, SubmitApplicationForm, SignForPosterForm
 from .models import Poster, User, Application
 
 
@@ -24,15 +24,13 @@ class Posters(ListView):
 def poster(request, post_slug):
     post = get_object_or_404(Poster, slug=post_slug)
     if request.method == 'POST':
-        form = SubmitApplicationForm(request.POST)
+        form = SignForPosterForm(request.POST)
         if form.is_valid():
-            try:
-                # todo кнопка записаться
-                user = User.objects.get(nickname=request.COOKIES['nickname'])
-            except:
-                return redirect('login_page')
+            user = User.objects.get(nickname=request.COOKIES['nickname'])
+            post.subscribers.add(user)
+            return redirect('personal_account')
     else:
-        form = SubmitApplicationForm()
+        form = SignForPosterForm()
     context = {'post': post, 'form': form}
     return render(request, 'poster.html', context=context)
 
@@ -43,8 +41,9 @@ def personal_account(request):
         applications = [application for application in Application.objects.filter(sender=user)]
         user_data = {
             'user': user,
-            'events': user.events.all(),
+            'created_events': user.created_events.all(),
             'applications': applications,
+            'poster_subscribers': Poster.objects.filter(subscribers__nickname=request.COOKIES['nickname']),
         }
     except:
         return redirect('login_page')
@@ -57,7 +56,7 @@ def poster_redactor(request):
         if form.is_valid():
             try:
                 user = User.objects.get(nickname=request.COOKIES['nickname'])
-                user.events.create(title=form.cleaned_data['title'],
+                user.created_events.create(title=form.cleaned_data['title'],
                                    place=form.cleaned_data['place'],
                                    price=form.cleaned_data['price'],
                                    creator=request.COOKIES['nickname'],

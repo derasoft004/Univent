@@ -23,8 +23,11 @@ class RegisterPosterForm(forms.Form):
     price = forms.IntegerField(label="Цена входа", widget=forms.TextInput, required=False)
     short_description = forms.CharField(label="Краткое описание", widget=forms.TextInput, required=False)
     full_description = forms.CharField(max_length=1023, label="Подробное описание", widget=forms.TextInput)
-    time_event = forms.DateTimeField(label="Дата и время проведения",
-                                     widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}))
+    time_event = forms.DateTimeField(label="Введите дату и время провождения в формате DD-MM-YEAR HH:MM (например 31-12-2025 15:30)",
+                                     widget=forms.DateTimeInput,
+                                     input_formats=[
+                                         '%Y-%m-%d %H:%M'  # Формат: 2023-11-05 14:30
+                                     ])
 
 
 class SubmitApplicationForm(forms.Form):
@@ -32,3 +35,7 @@ class SubmitApplicationForm(forms.Form):
     description = forms.CharField(max_length=255, label="Описание к заявке", widget=forms.TextInput, required=False)
     call_time = forms.DateTimeField(label="Удобное время для связи",
                                     widget=DateTimeInput(attrs={'type': 'datetime-local'}))
+
+
+class SignForPosterForm(forms.Form):
+    btn = forms.CharField()
